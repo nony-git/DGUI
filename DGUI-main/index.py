@@ -1,4 +1,4 @@
-# Run with python index.py and
+ # Run with python index.py and
 # visit http://127.0.0.1:8050/ browser
 
 import dash
