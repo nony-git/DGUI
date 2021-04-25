@@ -1,8 +1,8 @@
-# Run with python index.py and
-# visit http://127.0.0.1:8050/ browser
-
 import pandas as pd
 import plotly.express as px
+
+import numpy as np
+import statistics
 
 import dash
 import dash_core_components as dcc
@@ -13,9 +13,41 @@ from dash.dependencies import Input, Output
 #Aufgabe 11a) Einlesen des Covid-19 Datensatzes mit einem Pandas DataFrame
 df = pd.read_csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv")
 
+df.replace('', np.NaN , inplace = True)
+
+numbers = df._get_numeric_data()
+numbers[numbers < 0] = np.NaN
+   
 
 #Aufgabe 11b) Berechnen von Mittelwert, Standardabweichung, Varianz, Median und Maximum für das Attribut «new_cases»
-print(df[['new_cases']])
+mittelwert = np.mean(df['new_cases'])
+print(mittelwert)
+
+standardabweichung = np.std(df['new_cases'])
+print(standardabweichung)
+
+varianz = np.var(df['new_cases'])
+print(varianz)
+
+median = statistics.median(df['new_cases'])
+print(median)
+
+maximum = np.max(df['new_cases'])
+print(maximum)
 
 
-#Aufgabe 12c) Land mit dem höchsten Mittelwert beim Attribut «new_cases» 
+#Aufgabe 11c) Land mit dem höchsten Mittelwert beim Attribut «new_cases» 
+grouped = df.groupby(['location']).mean()
+
+country = ''
+highest_mean = 0
+
+for index, row in grouped.iterrows():
+    if row['new_cases'] > highest_mean:
+        if (index != 'World' and index != 'Europe' and index != 'North America' and index != 'Asia'):
+            highest_mean = row['new_cases']
+            country = index
+
+print(country)
+print(highest_mean)
+                       
