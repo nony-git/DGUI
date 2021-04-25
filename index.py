@@ -44,7 +44,7 @@ highest_mean = 0
 
 for index, row in grouped.iterrows():
     if row['new_cases'] > highest_mean:
-        if (index != 'World' and index != 'Europe' and index != 'North America' and index != 'Asia'):
+        if (index != 'World' and index != 'Europe' and index != 'North America' and index != 'Asia' and index != 'Africa' and index != 'European Union' and index != 'Oceania' and index != 'South America'):
             highest_mean = row['new_cases']
             country = index
 
