@@ -19,7 +19,7 @@ df[['continent']] = df[['continent']].replace(np.NaN, "undefined")
 
 numbers = df._get_numeric_data()
 numbers[numbers < 0] = np.NaN
-   
+
 
 #Aufgabe 11b) Berechnen von Mittelwert, Standardabweichung, Varianz, Median und Maximum für das Attribut «new_cases»
 mittelwert = np.mean(df['new_cases'])
@@ -38,7 +38,7 @@ maximum = np.max(df['new_cases'])
 print(maximum)
 
 
-#Aufgabe 11c) Land mit dem höchsten Mittelwert beim Attribut «new_cases» 
+#Aufgabe 11c) Land mit dem höchsten Mittelwert beim Attribut «new_cases»
 grouped = df.groupby(['location']).mean()
 
 
@@ -53,8 +53,8 @@ for index, row in grouped.iterrows():
 
 print(country)
 print(highest_mean)
- 
-   
+
+
 #Aufgabe 12a) Streudiagramm erzeugen
 #ohne Farbe funktioniert
 fig = px.scatter_matrix(df, dimensions=["total_cases", "new_cases", "hosp_patients", "new_vaccinations"])
@@ -66,6 +66,5 @@ fig.show()
 
 
 #Aufgabe 12b) Mittelwert von "total cases", "new cases", "hosp_patients" und "new_vaccinations" für alle Länder
-
 fig = px.scatter_matrix(grouped, dimensions=["total_cases", "new_cases", "hosp_patients", "new_vaccinations"], color="continent")
 fig.show()
