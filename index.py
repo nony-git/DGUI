@@ -15,6 +15,8 @@ df = pd.read_csv("https://raw.githubusercontent.com/owid/covid-19-data/master/pu
 
 df.replace('', np.NaN , inplace = True)
 
+df[['continent']] = df[['continent']].replace(np.NaN, "undefined")
+
 numbers = df._get_numeric_data()
 numbers[numbers < 0] = np.NaN
    
