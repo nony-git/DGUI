@@ -39,6 +39,7 @@ print(maximum)
 #Aufgabe 11c) Land mit dem höchsten Mittelwert beim Attribut «new_cases» 
 grouped = df.groupby(['location']).mean()
 
+
 country = ''
 highest_mean = 0
 
@@ -54,9 +55,14 @@ print(highest_mean)
    
 #Aufgabe 12a) Streudiagramm 
 #ohne Farbe funktioniert
-fig = px.scatter_matrix(df, dimensions=["total_cases", "new_cases", "hosp_patients"])
+fig = px.scatter_matrix(df, dimensions=["total_cases", "new_cases", "hosp_patients", "new_vaccinations"])
 fig.show()
 
 #mit Farbe Fehlermeldung
-fig = px.scatter_matrix(df, dimensions=["total_cases", "new_cases", "hosp_patients"], color="continent")
+fig = px.scatter_matrix(df, dimensions=["total_cases", "new_cases", "hosp_patients", "new_vaccinations"], color="continent")
 fig.show()
+
+
+#Aufgabe 12b) Mittelwert von "total cases", "new cases", "hosp_patients" und "new_vaccinations" für alle Länder
+
+
