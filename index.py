@@ -55,7 +55,7 @@ print(country)
 print(highest_mean)
  
    
-#Aufgabe 12a) Streudiagramm 
+#Aufgabe 12a) Streudiagramm erzeugen
 #ohne Farbe funktioniert
 fig = px.scatter_matrix(df, dimensions=["total_cases", "new_cases", "hosp_patients", "new_vaccinations"])
 fig.show()
@@ -67,4 +67,5 @@ fig.show()
 
 #Aufgabe 12b) Mittelwert von "total cases", "new cases", "hosp_patients" und "new_vaccinations" für alle Länder
 
-
+fig = px.scatter_matrix(grouped, dimensions=["total_cases", "new_cases", "hosp_patients", "new_vaccinations"], color="continent")
+fig.show()
