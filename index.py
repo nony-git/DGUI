@@ -50,4 +50,13 @@ for index, row in grouped.iterrows():
 
 print(country)
 print(highest_mean)
-                       
+ 
+   
+#Aufgabe 12a) Streudiagramm 
+#ohne Farbe funktioniert
+fig = px.scatter_matrix(df, dimensions=["total_cases", "new_cases", "hosp_patients"])
+fig.show()
+
+#mit Farbe Fehlermeldung
+fig = px.scatter_matrix(df, dimensions=["total_cases", "new_cases", "hosp_patients"], color="continent")
+fig.show()
