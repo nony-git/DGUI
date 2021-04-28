@@ -66,5 +66,7 @@ fig.show()
 
 
 #Aufgabe 12b) Mittelwert von "total cases", "new cases", "hosp_patients" und "new_vaccinations" für alle Länder
-fig = px.scatter_matrix(grouped, dimensions=["total_cases", "new_cases", "hosp_patients", "new_vaccinations"], color="continent")
+groupedscat = df.groupby(['location','continent']).mean().reset_index()
+
+fig = px.scatter_matrix(groupedscat, dimensions=["total_cases", "new_cases", "hosp_patients", "new_vaccinations"], color="continent")
 fig.show()
