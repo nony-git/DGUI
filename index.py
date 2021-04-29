@@ -56,11 +56,6 @@ print(highest_mean)
 
 
 #Aufgabe 12a) Streudiagramm erzeugen
-#ohne Farbe funktioniert
-fig = px.scatter_matrix(df, dimensions=["total_cases", "new_cases", "hosp_patients", "new_vaccinations"])
-fig.show()
-
-#mit Farbe Fehlermeldung
 fig = px.scatter_matrix(df, dimensions=["total_cases", "new_cases", "hosp_patients", "new_vaccinations"], color="continent")
 fig.show()
 
