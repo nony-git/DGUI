@@ -31,7 +31,7 @@ print(standardabweichung)
 varianz = np.var(df['new_cases'])
 print(varianz)
 
-median = statistics.median(df['new_cases'])
+median = np.nanmedian(df['new_cases'])
 print(median)
 
 maximum = np.max(df['new_cases'])
