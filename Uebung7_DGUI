@@ -1,5 +1,4 @@
-#Source Code
-
+#Afg. 13 a) Dropdown Continent, Default Europe
 
 import pandas as pd
 import plotly.express as px
@@ -19,18 +18,17 @@ app.layout = html.Div([
     html.H1("Covid-19 Dashboard with Dash", style = {'text-align': 'center'}),
     html.H4("Numbers and facts about Covid-19", style = {'text-align': 'left'}),
 
-    dcc.Dropdown(id='location',
-                 options = [
-                     {"label": "Germany", "value": 'Germany'},
-                     {"label": "France", "value": 'France'},
-                     {"label": "Austria", "value": 'Austria'},
-                     {"label": "Slovenia", "value": 'Slovenia'},
-                     {"label": "Netherlands", "value": 'Netherlands'},
-                     {"label": "Nigeria", "value": 'Nigeria'},
-                     {"label": "Switzerland", "value": 'Switzerland'}],
-                 multi = False,
-                 value='Germany',
-                 style = {"width": "40%"}),
+    dcc.Dropdown(id='continent',
+                 options=[
+                     {"label": "North America", "value": 'North America'},
+                     {"label": "South America", "value": 'South America'},
+                     {"label": "Europe", "value": 'Europe'},
+                     {"label": "Asia", "value": 'Asia'},
+                     {"label": "Oceania", "value": 'Oceania'},
+                     {"label": "Africa", "value": 'Africa'},],
+                 multi=False,
+                 value='Europe',
+                 style={"width": "40%"}),
     
         
     dcc.Graph(id='covidplot', figure = {}),
