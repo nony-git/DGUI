@@ -40,12 +40,12 @@ app.layout = html.Div([
 @app.callback(
     [Output(component_id='covidplot', component_property='figure'),
      Output(component_id='covidplot2', component_property='figure')],
-    [Input(component_id='location', component_property='value')]
+    [Input(component_id='continent', component_property='value')]
 )
 
 def update_graph(option_slctd):
     dff = df.copy()
-    dff = dff[dff["location"] == option_slctd]
+    dff = dff[dff["continent"] == option_slctd]
     
     
 # Plotly Express
