@@ -20,8 +20,8 @@ app = dash.Dash(__name__)
 
 
 app.layout = html.Div([
-    
-        
+
+
     html.H1("Covid-19 Dashboard with Dash", style = {'text-align': 'center'}),
     html.H4("Numbers and facts about Covid-19", style = {'text-align': 'left'}),
 
@@ -36,10 +36,10 @@ app.layout = html.Div([
                  multi=False,
                  value='Europe',
                  style={"width": "40%"}),
-    
-        
+
+
     dcc.Graph(id='scat', figure = {}),
-    
+
 ])
 
 @app.callback(
@@ -50,12 +50,12 @@ app.layout = html.Div([
 def update_graph(option_slctd):
     dff = df.copy()
     dff = dff[dff["continent"] == option_slctd]
-    
-# 13b)    
+
+# 13b)
 
     fig = px.scatter("dff", x="new_cases", y="new_deaths", color="location",  marginal_x="box", marginal_y="box",
                  size='gdp_per_capita', trendline="ols")
-   
+
 
     return fig
 
