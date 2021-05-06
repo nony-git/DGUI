@@ -53,7 +53,7 @@ def update_graph(option_slctd):
     
 # 13b)    
 
-    fig = px.scatter("dff", x="new_cases", y="new_deaths", color="location",
+    fig = px.scatter("dff", x="new_cases", y="new_deaths", color="location",  marginal_x="box", marginal_y="box",
                  size='gdp_per_capita', trendline="ols")
    
 
