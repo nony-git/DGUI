@@ -41,16 +41,34 @@ app.layout = html.Div(children = [
                  style = {"width": "40%"}),
     
     html.Div(children = [   
-        
+    html.H3("Aufgabe 13", style = {'text-align': 'left'}),   
     dcc.Graph(id='covidplot', figure = {})], 
-                               style={'display': 'inline-block', 
+                               style={'display': 'block', 
                                       'vertical-align': 'top', 
                                       'margin-left': '3vw', 'margin-top': '3vw',
-                                      'width': '40vw', 'height': '40vh'})
+                                      'width': '40vw', 'height': '40vh'}),
+    
+    html.Div(children = [
+    html.H3("Aufgabe 14", style = {'text-align': 'left'}),
+    html.Div(children = [
+        dcc.Graph(id='covidplot2', figure = {}),
+        dcc.Graph(id='covidplot3', figure = {})
+        ],
+        style={'display': 'flex',
+               'justify-content': 'space-between',
+               'widht': '100%'
+               })], 
+        style={'display': 'flex',
+               'flex-direction': 'column',
+               'vertical-align': 'top', 
+               'margin-left': '3vw', 'margin-top': '10vw',
+               'width': '80vw', 'height': '40vh'})
 ])
 
 @app.callback(
-    Output(component_id='covidplot', component_property='figure'),
+    [Output(component_id='covidplot', component_property='figure'),
+     Output(component_id='covidplot2', component_property='figure'),
+     Output(component_id='covidplot3', component_property='figure')],
     [Input(component_id='continent', component_property='value')]
 )
 
@@ -62,16 +80,25 @@ def update_graph(option_slctd):
     numbers[numbers < 0] = np.NaN
     dff[['continent']] = dff[['continent']].replace(np.NaN, 'undefined')
     dff[['gdp_per_capita']] = dff[['gdp_per_capita']].replace(np.NaN, 0)
-    
-    
+    dff[['edit_total_cases']] = np.max(dff['total_cases'])
+    grouped = dff.groupby(['location', 'continent'])['total_deaths'].max().reset_index()
+
+    grouped = grouped[grouped["continent"] == option_slctd]
     dff = dff[dff["continent"] == option_slctd]
    
     #Aufgabe 13b) Streudiagramm 
     fig = px.scatter(dff, x="new_cases", y="new_deaths", color="location",  
                      marginal_x="box", marginal_y="box", size='gdp_per_capita', trendline="ols",
-                     title="Aufgabe 13b) Streudiagramm | Kontinent: "+option_slctd)
+                     title="Streudiagramm für Kontinent: "+option_slctd)
+    
+    #Aufgabe 14) weitere Diagramme
+    fig2 = px.line(dff, x='date', y='new_cases', line_group='location', color='location', 
+                  title='Entwicklung der neuen Fälle für Kontinent: '+option_slctd)
+    
+    fig3 = px.bar(grouped, x="location", y="total_deaths", color="location",  
+                  title="Total Tote pro Land für Kontinent: "+option_slctd)
 
-    return fig
+    return fig, fig2, fig3
 
 
 if __name__ == '__main__':
