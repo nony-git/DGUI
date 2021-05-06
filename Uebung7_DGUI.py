@@ -23,8 +23,8 @@ df = pd.read_csv(io.StringIO(csv_data.decode('latin1')), sep=',')
 app.layout = html.Div(children = [    
         
     html.H1("GENIUSS Covid-19 Dashboard", 
-            style = {'text-align': 'left'}),
-    html.H4("Aufgabenblatt 7, Aufgabe 13", style = {'text-align': 'left'}),
+            style = {'text-align': 'center'}),
+    html.H4("Aufgabenblatt 7, Aufgabe 13 und 14", style = {'text-align': 'center'}),
     
     #Aufgabe 13a) Dropbdownmenu für das Attribut "Continent" mit dem Default-Value "Europe"
     dcc.Dropdown(id='continent',
