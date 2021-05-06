@@ -2,15 +2,22 @@
 
 import pandas as pd
 import plotly.express as px
-
+import numpy as np
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
+df = pd.read_csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv")
+df.replace('', np.NaN , inplace = True)
+numbers = df._get_numeric_data()
+numbers[numbers < 0] = np.NaN
+
+
 app = dash.Dash(__name__)
 
-df = pd.read_csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv")
+
+
 
 app.layout = html.Div([
     
@@ -31,15 +38,12 @@ app.layout = html.Div([
                  style={"width": "40%"}),
     
         
-    dcc.Graph(id='covidplot', figure = {}),
-    html.Br(),
+    dcc.Graph(id='scat', figure = {}),
     
-    dcc.Graph(id='covidplot2', figure = {})
 ])
 
 @app.callback(
-    [Output(component_id='covidplot', component_property='figure'),
-     Output(component_id='covidplot2', component_property='figure')],
+    Output(component_id='scat', component_property='figure'),
     [Input(component_id='continent', component_property='value')]
 )
 
@@ -47,16 +51,13 @@ def update_graph(option_slctd):
     dff = df.copy()
     dff = dff[dff["continent"] == option_slctd]
     
-    
-# Plotly Express
-    fig = px.line(dff, x='date', y='new_cases')
+# 13b)    
 
-    fig2 = px.scatter(dff, x="new_cases", y="new_deaths", 
-                     color = "new_tests", size = "tests_per_case",
-                     marginal_x = "box", marginal_y = "violin", trendline = "ols")
+    fig = px.scatter("dff", x="new_cases", y="new_deaths", color="location",
+                 size='gdp_per_capita', trendline="ols")
+   
 
-
-    return fig, fig2
+    return fig
 
 
 if __name__ == '__main__':
