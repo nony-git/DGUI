@@ -43,6 +43,7 @@ app.layout = html.Div(children = [
     html.Div(children = [   
     html.H3("Aufgabe 13", style = {'text-align': 'left'}),   
     dcc.Graph(id='covidplot', figure = {}),
+    #Aufgabe 14b) Versuch den Zeitverlauf mittels Slider im Streudiagramm darzustellen
     dcc.Slider(
         id='the_slider',
         min=2020,
@@ -78,8 +79,8 @@ app.layout = html.Div(children = [
     [Output(component_id='covidplot', component_property='figure'),
      Output(component_id='covidplot2', component_property='figure'),
      Output(component_id='covidplot3', component_property='figure')],
-    [Input(component_id='continent', component_property='value'),
-     Input(component_id='the_slider', component_property='value')]
+    [Input(component_id='continent', component_property='value'),]
+     
 )
 
 def update_graph(option_slctd):
@@ -101,7 +102,7 @@ def update_graph(option_slctd):
                      marginal_x="box", marginal_y="box", size='gdp_per_capita', trendline="ols",
                      title="Streudiagramm für Kontinent: "+option_slctd)
     
-    #Aufgabe 14) weitere Diagramme
+    #Aufgabe 14a) weitere Diagramme
     fig2 = px.line(dff, x='date', y='new_cases', line_group='location', color='location', 
                   title='Entwicklung der neuen Fälle für Kontinent: '+option_slctd)
     
