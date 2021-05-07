@@ -42,7 +42,16 @@ app.layout = html.Div(children = [
     
     html.Div(children = [   
     html.H3("Aufgabe 13", style = {'text-align': 'left'}),   
-    dcc.Graph(id='covidplot', figure = {})], 
+    dcc.Graph(id='covidplot', figure = {}),
+    dcc.Slider(
+        id='the_slider',
+        min=2020,
+        max=2021,
+        value=2021,
+        step=0.0833,
+        marks={i: '{}'.format(i) for i in range(2020, 2022)},
+    ),
+    ],
                                style={'display': 'block', 
                                       'vertical-align': 'top', 
                                       'margin-left': '3vw', 'margin-top': '3vw',
@@ -69,7 +78,8 @@ app.layout = html.Div(children = [
     [Output(component_id='covidplot', component_property='figure'),
      Output(component_id='covidplot2', component_property='figure'),
      Output(component_id='covidplot3', component_property='figure')],
-    [Input(component_id='continent', component_property='value')]
+    [Input(component_id='continent', component_property='value'),
+     Input(component_id='the_slider', component_property='value')]
 )
 
 def update_graph(option_slctd):
