@@ -6,6 +6,8 @@ import numpy as np
 import requests
 import io
 
+from datetime import date, datetime, timedelta
+
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -23,6 +25,20 @@ df_general = pd.read_csv(io.StringIO(csv_data_general.decode('latin1')), sep=','
 CSV_URL_LATEST = 'https://covid.ourworldindata.org/data/latest/owid-covid-latest.csv'
 csv_data_latest = requests.get(CSV_URL_LATEST).content
 df_latest = pd.read_csv(io.StringIO(csv_data_latest.decode('latin1')), sep=',')
+
+#Erstellen eines Dictionary mit allen Ländern drin
+df_countries = df_general.groupby(['location']).count()
+countries = []
+
+for country in df_countries.iterrows():
+    if (country[0] != "Africa" and country[0] != "Asia" and country[0] != "Europe" and
+        country[0] != "European Union" and country[0] != "International" and country[0] != "North America" and
+        country[0] != "Oceania" and country[0] != "South America" and country[0] != "World"):
+
+        countries.append({"label": country[0], "value": country[0]})
+
+yesterday = datetime.now() - timedelta(1)
+yesterday_date = datetime.strftime(yesterday, '%Y-%m-%d')
 
 app.layout = html.Div(children = [
     #header mit Titel
@@ -62,10 +78,7 @@ app.layout = html.Div(children = [
             html.Div(children = [
                 html.Div(
                     dcc.Dropdown(id='country',
-                         options = [
-                             {"label": "Switzerland", "value": 'Switzerland'},
-                             {"label": "Austria", "value": 'Austria'},
-                             {"label": "Germany", "value": 'Germany'}],
+                         options = countries,
                          multi = False,
                          value='Switzerland',
                          className="dropdown"),
@@ -75,24 +88,25 @@ app.layout = html.Div(children = [
                 html.Div(
                     dcc.Dropdown(id='show',
                          options = [
-                             {"label": "Cases", "value": 'Cases'},
-                             {"label": "Deaths", "value": 'Deaths'},
-                             {"label": "Hospitalizations", "value": 'Hospitalizations'}],
+                             {"label": "New Cases", "value": 'new_cases'},
+                             {"label": "Total Cases", "value": 'total_cases'},
+                             {"label": "New Deaths", "value": 'new_deaths'},
+                             {"label": "Total Deaths", "value": 'total_deaths'}],
                          multi = False,
-                         value='Cases',
+                         value='new_cases',
                          className="dropdown"),
                     className="dropdown-menu"
                 ),
 
                 html.Div(
-                    dcc.Dropdown(id='time',
-                         options = [
-                             {"label": "Test", "value": 'Test'},
-                             {"label": "Test1", "value": 'Test1'},
-                             {"label": "Test2", "value": 'Test2'}],
-                         multi = False,
-                         value='Test',
-                         className="dropdown"),
+                    dcc.DatePickerRange(
+                        id='starttime',
+                        min_date_allowed=date(2020, 1, 1),
+                        max_date_allowed=yesterday_date,
+                        initial_visible_month=yesterday_date,
+                        start_date=date(2020, 1, 1),
+                        end_date=yesterday_date
+                    ),
                     className="dropdown-menu"
                 )
             ], className="dropdown-menues"),
@@ -100,7 +114,16 @@ app.layout = html.Div(children = [
             #Diagramme
             html.Div(children = [
                 html.Div(
-                    dcc.Graph(id='newcases_country', figure = {}), className="graph"
+                    dcc.Graph(id='maingraph1', figure = {}), className="graph"
+                ),
+                html.Div(
+                    dcc.Graph(id='maingraph2', figure = {}), className="graph"
+                ),
+                html.Div(
+                    dcc.Graph(id='maingraph3', figure = {}), className="graph"
+                ),
+                html.Div(
+                    dcc.Graph(id='maingraph4', figure = {}), className="graph"
                 )
             ], className="graphs"),
         ], className="wrapper-graphs"),
@@ -120,12 +143,18 @@ app.layout = html.Div(children = [
 
 @app.callback(
     [Output(component_id='newcases', component_property='figure'),
-    Output(component_id='newcases_country', component_property='figure')],
+    Output(component_id='maingraph1', component_property='figure'),
+    Output(component_id='maingraph2', component_property='figure'),
+    Output(component_id='maingraph3', component_property='figure'),
+    Output(component_id='maingraph4', component_property='figure')],
     [Input(component_id='continent', component_property='value'),
-    Input(component_id='country', component_property='value')]
+    Input(component_id='country', component_property='value'),
+    Input(component_id='show', component_property='value'),
+    Input(component_id='starttime', component_property='start_date'),
+    Input(component_id='starttime', component_property='end_date')]
 )
 
-def update_graph(option_slctd, option_slctd2):
+def update_graph(option_slctd, option_slctd2, option_slctd3, option_slctd4, option_slctd5):
     #Bearbeitung der Daten für alle Daten
     dff = df_general.copy()
 
@@ -134,7 +163,15 @@ def update_graph(option_slctd, option_slctd2):
     numbers[numbers < 0] = np.NaN
     dff[['continent']] = dff[['continent']].replace(np.NaN, 'undefined')
 
+    dff1 = dff.copy()
+
     dff = dff[dff["location"] == option_slctd2]
+    dff = dff[dff["date"] >= option_slctd4]
+    dff = dff[dff["date"] <= option_slctd5]
+
+    dff1_country = dff1[dff1["location"] == option_slctd2]
+    dff1_continent = dff1_country.iloc[0]['continent']
+    dff1 = dff1[dff1["continent"] == dff1_continent]
 
     #Bearbeitung der Daten für die neusten Einträge
     dff_latest = df_latest.copy()
@@ -142,22 +179,45 @@ def update_graph(option_slctd, option_slctd2):
     dff_latest.dropna(subset=['continent'], inplace=True)
     dff_latest.dropna(subset=['new_cases'], inplace=True)
 
+    dff_latest1 = dff_latest.copy()
+
     dff_latest = dff_latest[dff_latest["continent"] == option_slctd]
 
-    #Horizontales Bar-Diagramm
+    dff_latest1_country = dff_latest1[dff_latest1["location"] == option_slctd2]
+    dff_latest1_continent = dff_latest1_country.iloc[0]['continent']
+    dff_latest1 = dff_latest1[dff_latest1["continent"] == dff_latest1_continent]
+
+    #Horizontales Bardiagramm
     fig = px.bar(dff_latest, x="new_cases", y="location", orientation='h')
     fig.update_layout(plot_bgcolor="#3F3F3f", paper_bgcolor="#3F3F3f", font_color="#DfDCDA", height=1000, margin=dict(pad=8))
     fig.update_yaxes(tickmode='linear',title=None)
     fig.update_xaxes(title=None)
     fig.update_traces(marker_color="#8F3B8E")
 
-    #Linien Diagramm
-    fig2 = px.line(dff, x='date', y='new_cases')
-    fig2.update_layout(plot_bgcolor="#3F3F3f", paper_bgcolor="#3F3F3f", font_color="#DfDCDA")
+    #Liniendiagramm
+    fig2 = px.line(dff, x='date', y=option_slctd3)
+    fig2.update_layout(plot_bgcolor="#757575", paper_bgcolor="#757575", font_color="#DfDCDA")
     fig2.update_yaxes(title=None)
     fig2.update_xaxes(title=None)
 
-    return fig, fig2
+    #Bardiagramm
+    fig3 = px.bar(dff, x="date", y=option_slctd3)
+    fig3.update_layout(plot_bgcolor="#757575", paper_bgcolor="#757575", font_color="#DfDCDA")
+    fig3.update_yaxes(title=None)
+    fig3.update_xaxes(title=None)
+
+    #Streudiagramm
+    fig4 = px.scatter(dff1, x="new_cases", y="new_deaths", color="location")
+    fig4.update_layout(plot_bgcolor="#757575", paper_bgcolor="#757575", font_color="#DfDCDA")
+    fig4.update_yaxes(title=None)
+    fig4.update_xaxes(title=None)
+
+    #Kartendiagramm
+    fig5 = px.choropleth(dff_latest1, locations="iso_code",color=option_slctd3)
+    fig5.update_geos(visible=False, resolution=50, scope=dff_latest1_continent.lower())
+    fig5.update_layout(plot_bgcolor="#757575", paper_bgcolor="#757575", geo=dict(bgcolor="#757575"), font_color="#DfDCDA",margin={"r":0,"t":0,"l":0,"b":0})
+
+    return fig, fig2, fig3, fig4, fig5
 
 if __name__ == '__main__':
     app.run_server(debug=True)
