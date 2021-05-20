@@ -1,0 +1,133 @@
+@font-face {
+  font-family: Roboto;
+  src: url(Roboto-Regular.ttf);
+}
+
+body {
+  background-color: #3F3F3f;
+  color: #DfDCDA;
+  font-family: Roboto;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+}
+
+.container {
+  position: relative;
+  /*max-width: 1200px;
+  margin: 0 auto; */
+  padding: 0 1rem;
+}
+
+.header {
+
+}
+
+.footer {
+  margin-top: 4rem;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.graph-container {
+  display: flex;
+}
+
+.wrapper-list {
+  border-right: 2px solid #DfDCDA;
+  width: 30%;
+  order: 1;
+  padding-right: 1rem;
+}
+
+.wrapper-graphs {
+  width: 70%;
+  order: 2;
+  padding-left: 1rem;
+}
+
+.graphs {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.graph {
+  width: 50%;
+}
+
+.dropdown-titles {
+  display: flex;
+}
+
+.dropdown-title {
+  width: 30%;
+}
+
+.dropdown-menues {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.dropdown-menu {
+  width: 28%;
+  margin-right: 2%;
+}
+
+#country, #time, #show {
+  max-width: 200px;
+}
+
+.dropdown {
+  color: #3F3F3f;
+}
+
+.dropdown-list {
+  max-width: 200px;
+  margin-bottom: 2rem;
+}
+
+.Select-control {
+  background-color: #CECECE;
+}
+
+/* MEDIUM AND BELOW */
+@media screen and (max-width: 992px) {
+  .graph-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .wrapper-list {
+    width: 100%;
+    border-right: 0 solid #DfDCDA;
+    border-top: 1px solid #DfDCDA;
+    order: 2;
+  }
+
+  .list-title {
+    text-align: center;
+  }
+
+  .dropdown-list {
+    margin-bottom: 1rem;
+    margin: 0 auto;
+  }
+
+  .wrapper-graphs {
+    width: 100%;
+    padding-left: 0;
+    order: 1;
+  }
+}
+
+/* SMALL AND BELOW */
+@media screen and (max-width: 768px) {
+
+}
