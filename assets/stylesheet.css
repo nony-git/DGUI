@@ -69,7 +69,7 @@ h1 {
 }
 
 .dropdown-title {
-  width: 30%;
+  width: 25%;
 }
 
 .dropdown-menues {
@@ -78,11 +78,11 @@ h1 {
 }
 
 .dropdown-menu {
-  width: 28%;
+  width: 23%;
   margin-right: 2%;
 }
 
-#country, #time, #show {
+#country, #time, #show, #show2 {
   max-width: 200px;
 }
 
