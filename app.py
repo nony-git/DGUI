@@ -93,7 +93,10 @@ app.layout = html.Div(children = [
                              {"label": "New Cases", "value": 'new_cases'},
                              {"label": "Total Cases", "value": 'total_cases'},
                              {"label": "New Deaths", "value": 'new_deaths'},
-                             {"label": "Total Deaths", "value": 'total_deaths'}],
+                             {"label": "Total Deaths", "value": 'total_deaths'},
+                             {"label": "New Vaccinations", "value": 'new_vaccinations'},
+                             {"label": "People Vaccinated", "value": 'people_vaccinated'},
+                             {"label": "People Fully Vaccinated", "value": 'people_fully_vaccinated'}],
                          multi = False,
                          value='new_cases',
                          className="dropdown"),
@@ -106,9 +109,12 @@ app.layout = html.Div(children = [
                              {"label": "New Cases", "value": 'new_cases'},
                              {"label": "Total Cases", "value": 'total_cases'},
                              {"label": "New Deaths", "value": 'new_deaths'},
-                             {"label": "Total Deaths", "value": 'total_deaths'}],
+                             {"label": "Total Deaths", "value": 'total_deaths'},
+                             {"label": "New Vaccinations", "value": 'new_vaccinations'},
+                             {"label": "People Vaccinated", "value": 'people_vaccinated'},
+                             {"label": "People Fully Vaccinated", "value": 'people_fully_vaccinated'}],
                          multi = False,
-                         value='total_cases',
+                         value='new_vaccinations',
                          className="dropdown"),
                     className="dropdown-menu"
                 ),
@@ -223,8 +229,13 @@ def update_graph(option_slctd, option_slctd2, option_slctd3, option_slctd4, opti
     fig2.update_yaxes(title=None)
     fig2.update_xaxes(title=None)
 
-    #Bardiagramm
-    fig3 = px.bar(dff, x="date", y=option_slctd6)
+    #Bardiagramm - wid momentan nicht benötigt
+    #fig3 = px.bar(dff, x="date", y=option_slctd6)
+    #fig3.update_layout(plot_bgcolor="#757575", paper_bgcolor="#757575", font_color="#DfDCDA")
+    #fig3.update_yaxes(title=None)
+    #fig3.update_xaxes(title=None)
+
+    fig3 = px.line(dff, x='date', y=option_slctd6)
     fig3.update_layout(plot_bgcolor="#757575", paper_bgcolor="#757575", font_color="#DfDCDA")
     fig3.update_yaxes(title=None)
     fig3.update_xaxes(title=None)
