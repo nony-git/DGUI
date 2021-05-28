@@ -13,21 +13,30 @@ body {
 
 h1 {
   text-align: center;
+  font-size: 2.5rem;
+}
+
+.link {
+  color: #ffffff;
+  transition: 0.2s;
+}
+
+.link:hover {
+  color: #B8B8B8;
 }
 
 .container {
   position: relative;
-  /*max-width: 1200px;
-  margin: 0 auto; */
   padding: 0 1rem;
 }
 
 .header {
-
+  margin-top: 3rem;
+  margin-bottom: 4rem;
 }
 
 .footer {
-  margin-top: 2rem;
+  margin-top: 3rem;
   margin-bottom: 1rem;
   font-size: 0.8rem;
   display: flex;
@@ -64,25 +73,27 @@ h1 {
   margin-bottom: 1%;
 }
 
-.dropdown-titles {
-  display: flex;
-}
-
-.dropdown-title {
-  width: 25%;
-}
-
 .dropdown-menues {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
   margin-bottom: 2rem;
 }
 
-.dropdown-menu {
-  width: 23%;
-  margin-right: 2%;
+.dropdown-menu-container {
+  width: 250px;
+  margin-right: 12px;
 }
 
-#country, #time, #show, #show2 {
+.dropdown-title {
+
+}
+
+.dropdown-menu {
+
+}
+
+#country, #country2, #time, #show, #show2 {
   max-width: 200px;
 }
 
@@ -99,8 +110,14 @@ h1 {
   background-color: #CECECE;
 }
 
-/* MEDIUM AND BELOW */
-@media screen and (max-width: 992px) {
+/* LARGE AND BELOW */
+@media screen and (max-width: 1200px) {
+  .header {
+    margin-bottom: 3rem;
+  }
+  .h1 {
+    font-size: 2rem;
+  }
   .graph-container {
     display: flex;
     flex-wrap: wrap;
@@ -131,6 +148,9 @@ h1 {
 
 /* SMALL AND BELOW */
 @media screen and (max-width: 768px) {
+  .h1 {
+    font-size: 1.8rem;
+  }
   .graph {
     width: 100%;
     margin-right: 0;
