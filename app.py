@@ -8,6 +8,9 @@ import io
 
 from datetime import date, datetime, timedelta
 
+import statistics
+from statistics import mode
+
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -37,9 +40,13 @@ for country in df_countries.iterrows():
 
         countries.append({"label": country[0], "value": country[0]})
 
-yesterday = datetime.now() - timedelta(1)
-yesterday_date = datetime.strftime(yesterday, '%Y-%m-%d')
-yesterday_date2 = datetime.strftime(yesterday, '%d.%m.%Y')
+#Datum der letzen Aktualisierung der Daten
+#Referenzwert ist das Datum, welches im df_latest-Datensatz am häufiksten vorkommt
+last_update_date = mode(df_latest['last_updated_date'])
+
+#yesterday = datetime.now() - timedelta(1)
+#yesterday_date = datetime.strftime(yesterday, '%Y-%m-%d')
+#yesterday_date2 = datetime.strftime(yesterday, '%d.%m.%Y')
 
 app.layout = html.Div(children = [
     #header mit Titel
@@ -51,7 +58,7 @@ app.layout = html.Div(children = [
     html.Div(children = [
         #Auflistung new Cases linke Seite
         html.Div(children = [
-            html.H2("New Cases from " + yesterday_date2, className="list-title"),
+            html.H2("New Cases from " + last_update_date, className="list-title"),
             dcc.Dropdown(id='continent',
                  options = [
                      {"label": "Europe", "value": 'Europe'},
@@ -123,10 +130,10 @@ app.layout = html.Div(children = [
                     dcc.DatePickerRange(
                         id='starttime',
                         min_date_allowed=date(2020, 1, 1),
-                        max_date_allowed=yesterday_date,
-                        initial_visible_month=yesterday_date,
+                        max_date_allowed=last_update_date,
+                        initial_visible_month=last_update_date,
                         start_date=date(2020, 1, 1),
-                        end_date=yesterday_date
+                        end_date=last_update_date
                     ),
                     className="dropdown-menu"
                 )
