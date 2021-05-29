@@ -46,10 +46,6 @@ for country in df_countries.iterrows():
 last_update_date = mode(df_latest['last_updated_date'])
 last_update_date_formated = datetime.strptime(last_update_date, '%Y-%m-%d').strftime('%d.%m.%Y')
 
-#yesterday = datetime.now() - timedelta(1)
-#yesterday_date = datetime.strftime(yesterday, '%Y-%m-%d')
-#yesterday_date2 = datetime.strftime(yesterday, '%d.%m.%Y')
-
 app.layout = html.Div(children = [
     #header mit Titel
     html.Div(children = [
@@ -60,18 +56,20 @@ app.layout = html.Div(children = [
     html.Div(children = [
         #Auflistung new Cases linke Seite
         html.Div(children = [
-            html.H2("New Cases from " + last_update_date_formated, className="list-title"),
-            dcc.Dropdown(id='continent',
-                 options = [
-                     {"label": "Europe", "value": 'Europe'},
-                     {"label": "North America", "value": 'North America'},
-                     {"label": "South America", "value": 'South America'},
-                     {"label": "Asia", "value": 'Asia'},
-                     {"label": "Oceania", "value": 'Oceania'},
-                     {"label": "Africa", "value": 'Africa'}],
-                 multi = False,
-                 value='Europe',
-                 className="dropdown dropdown-list"),
+            html.Div(children = [
+                html.H2("New Cases from " + last_update_date_formated, className="list-title"),
+                dcc.Dropdown(id='continent',
+                     options = [
+                         {"label": "Europe", "value": 'Europe'},
+                         {"label": "North America", "value": 'North America'},
+                         {"label": "South America", "value": 'South America'},
+                         {"label": "Asia", "value": 'Asia'},
+                         {"label": "Oceania", "value": 'Oceania'},
+                         {"label": "Africa", "value": 'Africa'}],
+                     multi = False,
+                     value='Europe',
+                     className="dropdown dropdown-list")
+            ], className="dropdown-list-container"),
             dcc.Graph(id='newcases', figure = {})
         ], className="wrapper-list"),
 
@@ -107,12 +105,20 @@ app.layout = html.Div(children = [
                         dcc.Dropdown(id='show',
                              options = [
                                  {"label": "New Cases", "value": 'new_cases'},
+                                 {"label": "New Cases per Million", "value": 'new_cases_per_million'},
                                  {"label": "Total Cases", "value": 'total_cases'},
+                                 {"label": "Total Cases per Million", "value": 'total_cases_per_million'},
                                  {"label": "New Deaths", "value": 'new_deaths'},
+                                 {"label": "New Deaths per Million", "value": 'new_deaths_per_million'},
                                  {"label": "Total Deaths", "value": 'total_deaths'},
+                                 {"label": "Total Deaths per Million", "value": 'total_deaths_per_million'},
                                  {"label": "New Vaccinations", "value": 'new_vaccinations'},
                                  {"label": "People Vaccinated", "value": 'people_vaccinated'},
-                                 {"label": "People Fully Vaccinated", "value": 'people_fully_vaccinated'}],
+                                 {"label": "People Fully Vaccinated", "value": 'people_fully_vaccinated'},
+                                 {"label": "HDI", "value": 'human_development_index'},
+                                 {"label": "Median Age", "value": 'median_age'},
+                                 {"label": "Stringency Index", "value": 'stringency_index'}],
+
                              multi = False,
                              value='new_cases',
                              className="dropdown"),
@@ -125,12 +131,19 @@ app.layout = html.Div(children = [
                         dcc.Dropdown(id='show2',
                              options = [
                                  {"label": "New Cases", "value": 'new_cases'},
+                                 {"label": "New Cases per Million", "value": 'new_cases_per_million'},
                                  {"label": "Total Cases", "value": 'total_cases'},
+                                 {"label": "Total Cases per Million", "value": 'total_cases_per_million'},
                                  {"label": "New Deaths", "value": 'new_deaths'},
+                                 {"label": "New Deaths per Million", "value": 'new_deaths_per_million'},
                                  {"label": "Total Deaths", "value": 'total_deaths'},
+                                 {"label": "Total Deaths per Million", "value": 'total_deaths_per_million'},
                                  {"label": "New Vaccinations", "value": 'new_vaccinations'},
                                  {"label": "People Vaccinated", "value": 'people_vaccinated'},
-                                 {"label": "People Fully Vaccinated", "value": 'people_fully_vaccinated'}],
+                                 {"label": "People Fully Vaccinated", "value": 'people_fully_vaccinated'},
+                                 {"label": "HDI", "value": 'human_development_index'},
+                                 {"label": "Median Age", "value": 'median_age'},
+                                 {"label": "Stringency Index", "value": 'stringency_index'}],
                              multi = False,
                              value='new_deaths',
                              className="dropdown"),
@@ -148,26 +161,26 @@ app.layout = html.Div(children = [
                         end_date=last_update_date
                     ),
                     className="dropdown-menu")
-                ], className="dropdown-menu-container")
+                ], className="dropdown-menu-container-large")
             ], className="dropdown-menues"),
 
             #Diagramme
             html.Div(children = [
                 html.Div(children = [
                     dcc.Graph(id='maingraph1', figure = {}),
-                    html.Div("Hier Beschreibung vom Diagramm?")], className="graph"
+                    html.Div("This graph shows the values of 1. Parameter in the course of the set timerange. If you select comparison countries, both these and the main country are shown.", className="graph-description")], className="graph"
                 ),
                 html.Div(children = [
                     dcc.Graph(id='maingraph2', figure = {}),
-                    html.Div("Hier Beschreibung vom Diagramm?")], className="graph"
+                    html.Div("This graph shows the values of 2. Parameter in the course of the set timerange. If you select comparison countries, both these and the main country are shown.", className="graph-description")], className="graph"
                 ),
                 html.Div(children = [
                     dcc.Graph(id='maingraph3', figure = {}),
-                    html.Div("Hier Beschreibung vom Diagramm?")], className="graph"
+                    html.Div("This graph shows the 1. Parameter on the x-axis and the 2. Parameter on the y-axis. The continent shown is given by the main country. The size of the circles refers to the size of the respective country.", className="graph-description")], className="graph"
                 ),
                 html.Div(children = [
                     dcc.Graph(id='maingraph4', figure = {}),
-                    html.Div("Hier Beschreibung vom Diagramm?")], className="graph"
+                    html.Div("This graph shows the 1. Parameter. The continent is given by the main country.", className="graph-description")], className="graph"
                 )
             ], className="graphs"),
         ], className="wrapper-graphs"),
@@ -240,18 +253,11 @@ def update_graph(option_slctd, option_slctd2, option_slctd3, option_slctd4, opti
     dff_latest.dropna(subset=['continent'], inplace=True)
     dff_latest.dropna(subset=['new_cases'], inplace=True)
 
-    #dff_latest1 = dff_latest.copy() || wird momentan nicht benötigt
-
     dff_latest = dff_latest[dff_latest["continent"] == option_slctd]
-
-    #wird momentan nicht benötigt
-    #dff_latest1_country = dff_latest1[dff_latest1["location"] == option_slctd2]
-    #dff_latest1_continent = dff_latest1_country.iloc[0]['continent']
-    #dff_latest1 = dff_latest1[dff_latest1["continent"] == dff_latest1_continent]
 
     #Horizontales Bardiagramm
     fig = px.bar(dff_latest, x="new_cases", y="location", orientation='h')
-    fig.update_layout(plot_bgcolor="#3F3F3f", paper_bgcolor="#3F3F3f", font_color="#DfDCDA", height=1000, margin=dict(pad=8))
+    fig.update_layout(plot_bgcolor="#3F3F3f", paper_bgcolor="#3F3F3f", font_color="#DfDCDA", height=1100, margin=dict(pad=8))
     fig.update_yaxes(tickmode='linear',title=None)
     fig.update_xaxes(title=None)
     fig.update_traces(marker_color="#8F3B8E")
@@ -265,12 +271,6 @@ def update_graph(option_slctd, option_slctd2, option_slctd3, option_slctd4, opti
     fig2.update_layout(plot_bgcolor="#757575", paper_bgcolor="#757575", font_color="#DfDCDA")
     fig2.update_yaxes(title=None)
     fig2.update_xaxes(title=None)
-
-    #Bardiagramm - wid momentan nicht benötigt
-    #fig3 = px.bar(dff, x="date", y=option_slctd6)
-    #fig3.update_layout(plot_bgcolor="#757575", paper_bgcolor="#757575", font_color="#DfDCDA")
-    #fig3.update_yaxes(title=None)
-    #fig3.update_xaxes(title=None)
 
     #Liniendiagramm für 2. Parameter
     #Die Farblegende soll nur angezeigt werden, wenn es Verlgeichsländer hat

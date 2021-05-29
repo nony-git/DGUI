@@ -16,6 +16,10 @@ h1 {
   font-size: 2.5rem;
 }
 
+h2 {
+  font-size: 1.4rem;
+}
+
 .link {
   color: #ffffff;
   transition: 0.2s;
@@ -73,6 +77,11 @@ h1 {
   margin-bottom: 1%;
 }
 
+.graph-description {
+    font-size: 0.8rem;
+    margin: 6px 3px;
+}
+
 .dropdown-menues {
   display: flex;
   flex-wrap: wrap;
@@ -81,16 +90,13 @@ h1 {
 }
 
 .dropdown-menu-container {
-  width: 250px;
-  margin-right: 12px;
+  width: 24%;
+  margin-right: 1%;
 }
 
-.dropdown-title {
-
-}
-
-.dropdown-menu {
-
+.dropdown-menu-container-large {
+  width: 50%;
+  margin-right: 0;
 }
 
 #country, #country2, #time, #show, #show2 {
@@ -107,7 +113,22 @@ h1 {
 }
 
 .Select-control {
-  background-color: #CECECE;
+  height: 48px;
+  font-size: 19px;
+  border-radius: 2px;
+}
+
+.Select-value, .Select-placeholder {
+  display: flex;
+  align-items: center;
+}
+
+/* X-LARGE AND BELOW */
+@media screen and (max-width: 1400px) {
+    .dropdown-menu-container {
+      width: 30%;
+      margin-right: 3%;
+    }
 }
 
 /* LARGE AND BELOW */
@@ -115,8 +136,11 @@ h1 {
   .header {
     margin-bottom: 3rem;
   }
-  .h1 {
+  h1 {
     font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.2rem;
   }
   .graph-container {
     display: flex;
@@ -128,6 +152,8 @@ h1 {
     border-right: 0 solid #DfDCDA;
     border-top: 1px solid #DfDCDA;
     order: 2;
+    margin-top: 2rem;
+    padding-top: 2rem;
   }
 
   .list-title {
@@ -155,5 +181,21 @@ h1 {
     width: 100%;
     margin-right: 0;
     margin-bottom: 1%;
+  }
+  .dropdown-menu-container {
+    width: 49%;
+    margin-right: 1%;
+  }
+  .dropdown-menu-container-large {
+    width: 100%;
+    margin-right: 0;
+  }
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .footer > div:first-child {
+    padding-bottom: 1rem;
   }
 }
